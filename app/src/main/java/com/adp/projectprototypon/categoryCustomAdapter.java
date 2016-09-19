@@ -6,9 +6,9 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.adp.projectprototypon.Models.Category;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,11 +18,11 @@ import java.util.List;
  */
 public class categoryCustomAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 
-    private List<FeedItem> feedItemList;
+    private List<Category> feedItemList;
 
     private Context mContext;
 
-    public categoryCustomAdapter(Context context, List<FeedItem> data) {
+    public categoryCustomAdapter(Context context, List<Category> data) {
         this.feedItemList = data;
         this.mContext = context;
 
@@ -38,17 +38,17 @@ public class categoryCustomAdapter extends RecyclerView.Adapter<FeedListRowHolde
 
     @Override
     public void onBindViewHolder(FeedListRowHolder holder, int position) {
-        FeedItem feedItem = feedItemList.get(position);
+        Category feedItem = feedItemList.get(position);
 
-        Picasso.with(mContext).load(feedItem.getThumbnail())
+        Picasso.with(mContext).load(feedItem.getData().getImage())
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
                 .into(holder.thumbnail);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            holder.title.setText(Html.fromHtml(feedItem.getTitle(), Html.FROM_HTML_MODE_LEGACY));
+            holder.title.setText(Html.fromHtml(feedItem.getName(), Html.FROM_HTML_MODE_LEGACY));
         } else {
-            holder.title.setText(Html.fromHtml(feedItem.getTitle()));
+            holder.title.setText(Html.fromHtml(feedItem.getName()));
         }
 
     }
