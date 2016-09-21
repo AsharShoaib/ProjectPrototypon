@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.adp.projectprototypon.Base.App;
 import com.adp.projectprototypon.Constants;
 import com.adp.projectprototypon.Models.Category;
-import com.adp.projectprototypon.Network.ApiRequests;
+import com.adp.projectprototypon.Network.ApiCalls;
 import com.adp.projectprototypon.Network.GsonGetRequest;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void performRequest() {
         final GsonGetRequest<Category> gsonGetRequest =
-                ApiRequests.getObject
+                ApiCalls.getObject
                         (
                                 new Response.Listener<Category>() {
                                     @Override

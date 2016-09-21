@@ -5,7 +5,7 @@
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.adp.projectprototypon.MainActivity"
+    tools:context="com.adp.projectprototypon.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <android.support.v7.widget.RecyclerView
@@ -18,14 +18,5 @@
         app:layout_constraintLeft_toLeftOf="@+id/content_main"
         app:layout_constraintRight_toRightOf="@+id/content_main"
         app:layout_constraintTop_toTopOf="@+id/content_main" />
-
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Hello World!"-->
-        <!--app:layout_constraintBottom_toBottomOf="@+id/content_main"-->
-        <!--app:layout_constraintLeft_toLeftOf="@+id/content_main"-->
-        <!--app:layout_constraintRight_toRightOf="@+id/content_main"-->
-        <!--app:layout_constraintTop_toTopOf="@+id/content_main" />-->
 
 </android.support.constraint.ConstraintLayout>

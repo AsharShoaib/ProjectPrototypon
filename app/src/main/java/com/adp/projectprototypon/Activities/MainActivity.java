@@ -1,7 +1,6 @@
 package com.adp.projectprototypon.Activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,14 +18,8 @@ import android.view.MenuItem;
 import com.adp.projectprototypon.Base.App;
 import com.adp.projectprototypon.CategoryRecyclerViewAdapter;
 import com.adp.projectprototypon.Constants;
-import com.adp.projectprototypon.Models.Category;
-import com.adp.projectprototypon.Network.ApiRequests;
-import com.adp.projectprototypon.Network.GsonGetRequest;
 import com.adp.projectprototypon.R;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
