@@ -1,13 +1,11 @@
-package com.adp.projectprototypon;
+package com.adp.projectprototypon.Activities;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,15 +16,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.adp.projectprototypon.Base.App;
+import com.adp.projectprototypon.CategoryRecyclerViewAdapter;
+import com.adp.projectprototypon.Constants;
 import com.adp.projectprototypon.Models.Category;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.adp.projectprototypon.Network.ApiRequests;
+import com.adp.projectprototypon.Network.GsonGetRequest;
+import com.adp.projectprototypon.R;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +33,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView category_RCview;
-    private RecyclerView.Adapter categoryAdapter;
     private RecyclerView.LayoutManager categoryLayoutManager;
-    private List<Category> categoryItemList = new ArrayList<>();
-
-    private static final String TAG = "Category Downloading";
+    private List<String> sImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +43,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
+        sImages = getIntent().getStringArrayListExtra("images");
         category_RCview = (RecyclerView) findViewById(R.id.category_RCview);
 
         categoryLayoutManager = new LinearLayoutManager(this);
         category_RCview.setLayoutManager(categoryLayoutManager);
 
+        setUpRecyclerView(category_RCview);
 
-        final String url = "https://kinactiv.mybluemix.net/api/v1/categories";
-        new AsyncHttpTask().execute(url);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -132,74 +128,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public class AsyncHttpTask extends AsyncTask<String, Integer, Integer> {
-        ProgressDialog progressDialog;
+    private void setUpRecyclerView(RecyclerView recyclerView) {
 
-        @Override
-        protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(MainActivity.this,
-                    "ProgressDialog",
-                    "Fetching data and Syncing Server");
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            InputStream inputStream = null;
-            Integer result = 0;
-            HttpURLConnection urlConnection = null;
-
-            try {
-                /* forming th java.net.URL object */
-                URL url = new URL(params[0]);
-                publishProgress(50);
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                /* for Get request */
-                urlConnection.setRequestMethod("GET");
-
-                int statusCode = urlConnection.getResponseCode();
-
-                /* 200 represents HTTP OK */
-                if (statusCode == 200) {
-                    HttpEntity getResponseEntity = getResponse.getEntity();
-
-                    result = 1; // Successful
-                } else {
-                    result = 0; //"Failed to fetch data!";
-                }
-
-            } catch (Exception e) {
-                Log.d(TAG, e.getLocalizedMessage());
-            }
-
-            return result; //"Failed to fetch data!";
-        }
-
-
-        @Override
-        protected void onPostExecute(Integer result) {
-
-            progressDialog.dismiss();
-
-            /* Download complete. Lets update UI */
-            if (result == 1) {
-                categoryAdapter = new categoryCustomAdapter(MainActivity.this, categoryItemList);
-                category_RCview.setAdapter(categoryAdapter);
-            } else {
-                Log.e(TAG, "Failed to fetch data!");
-            }
-        }
+        App.LogSystem(Constants.TAG_Category_Recycler, "Attaching adapter");
+        recyclerView.setAdapter(new CategoryRecyclerViewAdapter(sImages));
     }
-
-    private void parseResult(String result) {
-
-        Gson gson = new GsonBuilder().create();
-        Category c = gson.fromJson(result, Category.class);
-        Log.i(TAG, "Parsed Data: " + c.toString());
-        categoryItemList.add(c);
-
-    }
-
-
 }
 

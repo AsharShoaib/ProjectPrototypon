@@ -17,7 +17,7 @@ public class Category {
 
     @SerializedName("data")
     @Expose
-    private List<Category> data = new ArrayList<Category>();
+    private List<Data> data = new ArrayList<>();
 
     /**
      * @return The meta
@@ -36,14 +36,14 @@ public class Category {
     /**
      * @return The data
      */
-    public List<Category> getData() {
+    public List<Data> getData() {
         return data;
     }
 
     /**
      * @param data The data
      */
-    public void setData(List<Category> data) {
+    public void setData(List<Data> data) {
         this.data = data;
     }
 
